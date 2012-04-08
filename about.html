@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <title>JSON schema generator</title>
+  <meta name="description" content="JSON schema generator" />
+  <meta content="JSON, schema, generate, json schema" name="keywords">
+  <meta name="robots" content="index, follow">
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+  <link rel="stylesheet" type="text/css" href="css/schema.css" />
+  
+  <!-- Third-Party Libraries (Order matters) -->
+  <script type="text/javascript" src="js/jquery-1.7.2.js"></script>
+  <script type="text/javascript" src="js/underscore.js"></script>
+  <script type="text/javascript" src="js/backbone.js"></script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30572767-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head>
+
+<body>
+
+
+<script type="text/template" id="schemapairview-template">
+  <div class="schemaviewpair" id="<%= id %>">
+    <div class="key">"<a href="#" data-id="<%=id%>"><%= key %></a>": </div>
+    <div class="options">
+      <form name="options" class="formOptions">
+        <div class="optRequired">Required:<input type="checkbox" name="required" value="required" /></div>
+        <div class="optRequired">Description:<input type="text" /></div>
+      </form>
+    </div>
+    <div class="schema"></div>
+  </div>
+</script>
+
+<script type="text/template" id="schemaview-template">
+  <span>{</span>
+  <div class="type">"type": "<%= type %>",</div>
+  <div class="properties">"properties": {
+    <div class="propertiesInner"></div>
+    },
+  </div>
+  <div class="items">"items": [
+    <div class="itemsInner"></div>
+    ],
+ </div>}<%= separator %>
+</script>
+<div id="container">
+  <div id="header">
+    <h1>
+      <a href="index.html">JSON Schema.net</a> 
+    </h1>
+  </div>
+  <div id="navigation">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a class="selected" href="about.html">About</a></li>
+      <li><a href="faq.html">FAQs</a></li>
+    </ul>
+  </div>
+	<div id="content-container">
+		<div id="content">
+			<h2>About</h2>
+			<p>JSON Schema Generator is a tool that automatically generates JSON schema from JSON. Schema is generated according to the IETF <a href="http://tools.ietf.org/html/draft-zyp-json-schema-03">JSON Schema Internet Draft</a>.</p>
+			
+		</div>
+		<div id="aside">
+			<h2>Contact</h2>
+      <p>
+        <a href="mailto:info@jsonschema.net">info@jsonschema.net</a>
+      </p>
+		</div>
+		<div id="footer">
+      Copyright © <a href="#">www.jsonschema.net</a>, 2012
+    </div>
+	</div>
+</div>
+
+</body>
+</html>

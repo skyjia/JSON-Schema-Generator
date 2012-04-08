@@ -1,0 +1,394 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <title>JSON schema generator</title>
+  <meta name="description" content="JSON schema generator" />
+  <meta content="JSON, schema, generate, json schema" name="keywords">
+  <meta name="robots" content="index, follow">
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+
+
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+  <link rel="stylesheet" type="text/css" href="css/schema.css" />
+  
+  <!-- Third-Party Libraries (Order matters) -->
+  <script type="text/javascript" src="js/jquery-1.7.2.js"></script>
+  <script type="text/javascript" src="js/underscore.js"></script>
+  <script type="text/javascript" src="js/backbone.js"></script>
+  
+  <!-- Application code (Order matters) -->
+  <script type="text/javascript" src="js/schema.js"></script>
+  <script type="text/javascript" src="js/utilitymodels.js"></script>
+  <script type="text/javascript" src="js/models.js"></script>
+  <script type="text/javascript" src="js/interactiveviews.js"></script>
+  <script type="text/javascript" src="js/rawviews.js"></script>
+
+  
+  <script type="text/javascript">
+  	
+	$(document).ready(function() {
+
+		window.AppView = Backbone.View.extend({
+
+			el: $("body"),
+
+      rootSchemaPairView: undefined,
+
+      rawRootSchemaPairView: undefined,
+
+      jsonInputExample: '{\n\t"firstName":"John",\n\t"lastName":"Smith",\n\t"age":25,\n\t"address":{\n\t\t"streetAddress": "21 2nd Street",\n\t\t"city":"New York"\n\t},\n\t"phoneNumber":\n\t[\n\t\t{\n\t\t\t"type":"home",\n\t\t\t"number":"212 555-1234"\n\t\t}\n\t]\n}',
+
+      schemaInputExample: '{\n\t"$schema": "http://json-schema.org/draft-03/schema",\n\t"type": "object",\t\n\t"properties": {\n\t"address": {\n\t\t"type": "object",\n\t\t"properties": {\n\t\t\t"city": {\n\t\t\t\t"type": "string"\n\t\t\t},\n\t\t\t"streetAddress": {\n\t\t\t\t"type": "string"\n\t\t\t}\n\t\t}\n\t},\n\t"age":{\n\t\t"type": "number"\n\t},\n\t"firstName": {\n\t\t"type": "string"\n\t},\n\t"lastName": {\n\t\t"type": "string"\n\t},\n\t"phoneNumber": {\n\t\t"type": "array",\n\t\t"items": {\n\t\t\t"type": "object",\n\t\t\t"properties": {\n\t\t\t\t"number": {\n\t\t\t\t\t"type": "string"\n\t\t\t\t},\n\t\t\t\t"type": {\n\t\t\t\t\t"type": "string"\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n}',
+
+      loadSchemaButtonString: 'Load schema',
+
+      generateSchemaButtonString: 'Generate schema',
+
+      initialize: function() {
+        _.bindAll(this, 'generateSchema');
+        _.bindAll(this, 'setupUi');
+        _.bindAll(this, 'resetUi');
+        this.setupUi();
+        this.generateSchema();
+      },
+
+      setupUi: function() {
+        var inputType = $('#UserInput input:[name=InputType]:checked').val();
+
+        if (inputType == 'schema') {
+          $('#RequestGenerateSchema').val(this.loadSchemaButtonString);
+          $('textarea#InputJsonString').val(this.schemaInputExample);
+        } else {
+          $('#RequestGenerateSchema').val(this.generateSchemaButtonString);
+          $('textarea#InputJsonString').val(this.jsonInputExample);
+        }
+      },
+
+			generateSchema: function() {
+
+        $('#RootSchemaPairView').empty();
+        $('#RawRootSchemaPairView').empty();
+
+        var rootSchema = JsonSchema.GenerateSchema();
+       
+        var rootSchemaPair = new SchemaPair({schema:rootSchema, root:true});
+        this.rootSchemaPairView = new SchemaPairView({model:rootSchemaPair});
+        this.rawRootSchemaPairView = new RawSchemaPairView({model:rootSchemaPair});
+        this.render();
+  		},
+
+      render: function() {
+        var start = new Date().getTime();
+        $("div#RootSchemaPairView").append(this.rootSchemaPairView.render().el);
+        var end = new Date().getTime();
+        var time = end - start;
+        //console.log(time);
+
+        $('div#RootSchemaPairView').show();
+        $("div#RawRootSchemaPairView").append(this.rawRootSchemaPairView.render().el);
+        $('div#RawRootSchemaPairView').show();
+      },
+
+  		resetUi: function() {
+        $('#RootSchemaPairView').empty();
+        $('#RawRootSchemaPairView').empty();
+        $('#UserInput').each (function(){
+          this.reset();
+        });
+
+        this.setupUi();
+  		},
+			
+			events: {
+  			"click #RequestGenerateSchema": "generateSchema",
+  			"click #RequestResetAll": "resetUi",
+        "click #UserInput input:[name=InputType]" : "setupUi"
+		  }
+		});
+
+		var appview = new AppView();
+
+    $('div#RawRootSchemaPairView').click( 
+      function() {
+        SelectText('RawRootSchemaPairView'); 
+      });
+  
+      function SelectText(element) {
+          var text = document.getElementById(element);
+          if ($.browser.msie) {
+              var range = document.body.createTextRange();
+              range.moveToElementText(text);
+              range.select();
+          } else if ($.browser.mozilla || $.browser.opera) {
+              var selection = window.getSelection();
+              var range = document.createRange();
+              range.selectNodeContents(text);
+              selection.removeAllRanges();
+              selection.addRange(range);
+          } else if ($.browser.safari) {
+              var selection = window.getSelection();
+              selection.setBaseAndExtent(text, 0, text, 1);
+          }
+      }
+
+});
+  </script>
+
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-30572767-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+</head>
+
+<body>
+
+<script type="text/template" id="SchemaPairView-Template">
+  <div class="SchemaPairView">
+    <div class="Key">"<%= Key %>": </div>
+    <div class="Menu">
+      <span class="MenuClose" title="Delete schema">x</span>
+    </div>
+    <div class="Schema"></div>
+
+  </div>
+</script>
+
+<script type="text/template" id="SchemaView-Template">
+  <span>{</span>
+  <div class="Options"></div>
+  <div class="DollarSchema">"$schema": "<%- DollarSchema %>"</div>
+  <div class="Title">"title": "<%- Title %>"</div>
+  <div class="Name">"name": "<%- Name %>"</div>
+  <div class="Description">"description": "<%- Description %>"</div>
+  <div class="Types">"type": </div>
+  <div class="Minimum">"minimum": <%- Minimum %></div>
+  <div class="Maximum">"maximum": <%- Maximum %></div>
+  <div class="Required">"required": <%= Required %></div>
+  <div class="MinItems">"minItems": <%- MinItems %></div>
+  <div class="MaxItems">"maxItems": <%- MaxItems %></div>
+   <!-- If all array items can be described by one schema, then
+  items is a a single schema. -->
+  <div class="Item">"items":</div>
+  <!-- If Tuple Typing is required, then multiple schemas are required 
+  and items is an array of schemas. -->
+  <div class="Items">"items": [
+    <div class="ItemsInner"></div> ]
+ </div>
+ <!-- Properties must go last otherwise :first selector uses properties
+ and not this schema. -->
+  <div class="Properties">"properties": {
+    <div class="PropertiesInner"></div> }
+  </div> }<%= Separator%>
+</script>
+
+<script type="text/template" id="SchemaOptionsView-Template">
+
+  <form name="SchemaOptions" class="SchemaOptions">
+
+    <fieldset>
+      <legend>Core options</legend>
+
+      <ol>
+
+      <li class="OptionsNav">
+        <span class="Basic">Basic</span> 
+        <!--<span class="Advanced">Advanced</span>-->
+        <span class="Nested">Add Properties</span> 
+      </li>
+
+      <li class="OptError">
+        Invalid input value was provided.
+      </li>
+      </ol>
+
+      <div class="AdvancedView">
+      </div>
+
+      <div class="NestedView">
+        <li class="OptProperties">
+          <label for="PropertyKey" >key #1: </label>
+          <input type="text" name="PropertyKey" class="PropertyKey"/> : { ... },
+        </li>
+         <li class="OptProperties">
+          <label for="PropertyKey" >key #2: </label>
+          <input type="text"  name="PropertyKey" class="PropertyKey"/> : { ... },
+        </li>
+         <li class="OptProperties">
+          <label for="PropertyKey" >key #3: </label>
+          <input type="text"  name="PropertyKey" class="PropertyKey"/> : { ... }
+        </li>
+      </div>
+
+      <div class="BasicView">
+        <ol>
+        <li class="OptRequired">
+          <label for="Required">required: </label>
+          <input type="checkbox" <%= CheckRequired %> class="Required"/>
+          <!--<label for="ArrayItems">items: </label>
+          <input type="checkbox"  class="ArrayItems"/>-->
+        </li>
+        <li class="OptTitle">
+          <label for="Title" >title: </label>
+          <input type="text" value="<%= Title %>" class="Title"/>
+          <label for="Name" >name: </label>
+          <input type="text" value="<%= Name %>" class="Name"/>
+        </li>
+        <li class="OptDescription">
+          <label for="Description" >description: </label>
+          <input type="text" value="<%= Description %>" class="Description"/>
+        </li>
+        <li class="OptType">
+          <label for="Type">type: </label>
+          <input type="checkbox" <%= CheckString %> name="Type" value="string" /> string,
+          <input type="checkbox" <%= CheckNumber %> name="Type" value="number"/> number,
+          <input type="checkbox" <%= CheckInteger %> name="Type" value="integer" /> integer,
+          <input type="checkbox" <%= CheckBoolean %> name="Type" value="boolean" /> boolean,
+        </li>
+        <li class="OptType">
+          <label for="Type"></label>
+          <input type="checkbox" <%= CheckObject %> name="Type" value="object"/> object,
+          <input type="checkbox" <%= CheckArray %> name="Type" value="array" id="TypeArray" /> array,
+          <input type="checkbox" <%= CheckNull %> name="Type" value="null"/> null,
+          <input type="checkbox" <%= CheckAny %> name="Type" value="any"/> any
+        </li>
+        <li class="OptNumber">
+        <fieldset>
+          <legend>Number only</legend>
+          <label for="Minimum">minimum: </label>
+          <input type="text"  class="Minimum" value="<%= Minimum %>"/>,
+          <label for="Maximum"> maximum: </label>
+          <input type="text" class="Maximum" value="<%= Maximum %>"/>
+        </fieldset>
+        </li>
+         <li class="OptArray">
+         <fieldset>
+          <legend>Array only</legend>
+          <label for="MinItems">minItems: </label>
+          <input type="text" class="MinItems" value="<%= MinItems %>"/>,
+          <label for="MaxItems"> maxItems: </label>
+          <input type="text" class="MaxItems" value="<%= MaxItems %>"/>, 
+          <label for="ItemSpaces">add </label>
+          <input type="text" name="ItemSpaces" class="ItemSpaces"/> indexes.
+        </fieldset>
+        </li>
+      </ol>
+  </div>
+
+  <ol>
+   <li class="OptActions">
+      <label for="Action"></label>
+      <input type="button" value="save + close" name="Action" class="Save" />
+      <input type="button" value="reset" name="Action" class="Reset" />
+    </li>
+  </ol>
+  </fieldset>
+  </form>
+</script>
+
+<script type="text/template" id="RawSchemaPairView-Template">
+  <div class="RawSchemaPairView">
+    <div class="Key">"<%= Key %>": </div>
+    <div class="Schema"></div>
+  </div>
+</script>
+
+<script type="text/template" id="RawSchemaView-Template">
+  <span>{</span>
+  <div class="DollarSchema">"$schema": "<%- DollarSchema %>"</div>
+  <div class="Title">"title": "<%- Title %>"</div>
+  <div class="Name">"name": "<%- Name %>"</div>
+  <div class="Description">"description": "<%- Description %>"</div>
+  <div class="Types">"type": </div>
+  <div class="Minimum">"minimum": <%- Minimum %></div>
+  <div class="Maximum">"maximum": <%- Maximum %></div>
+  <div class="Required">"required": <%= Required %></div>
+  <div class="MinItems">"minItems": <%- MinItems %></div>
+  <div class="MaxItems">"maxItems": <%- MaxItems %></div>
+   <!-- If all array items can be described by one schema, then
+  items is a a single schema. -->
+  <div class="Item">"items":</div>
+  <!-- If Tuple Typing is required, then multiple schemas are required 
+  and items is an array of schemas. -->
+  <div class="Items">"items": [
+    <div class="ItemsInner"></div>]
+ </div>
+ <!-- Properties must go last otherwise :first selector uses properties
+ and not this schema. -->
+  <div class="Properties">"properties": {
+    <div class="PropertiesInner"></div>}
+  </div>}<%= Separator%>
+</script>
+
+
+<div id="container">
+	<div id="header">
+		<h1>
+			<a href="index.html">JSON Schema.net</a> 
+		</h1>
+	</div>
+	<div id="navigation">
+		<ul>
+      <li><a class="selected" href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="faq.html">FAQs</a></li>
+    </ul>
+	</div>
+	<div id="content-container">
+		<div id="content">
+			<h3>2) Modify schema (optional)</h3>
+			<div id="RootSchemaPairView"></div>
+   
+		</div>
+		<div id="aside">
+		<h3>1) Input JSON or schema</h3>
+
+				<form name="UserInput" id="UserInput">
+          <fieldset>
+            <legend>Input format</legend>
+
+            <div class="InputWrapper">
+
+              <span class="RadioWrapper">
+                <input type="radio" name="InputType" class="InputRadio" value="json" checked/> JSON
+              </span>
+              <span class="RadioWrapper">
+                <input type="radio" name="InputType" class="InputRadio" value="schema" /> JSON Schema
+              </span>
+              <p>If you already have JSON schema that you wish to continue working with, select 'JSON Schema'. <br />
+                If you need to generate JSON schema based on JSON, select 'JSON' (default).<p>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Input value</legend>
+            <div class="InputWrapper">
+              <p>Use the example provided if you don't have any JSON or JSON schema but want to demo this tool.</p>
+      		    <textarea id="InputJsonString"></textarea>
+            </div>
+            <div class="InputWrapper">
+      			 <input type="button" class="InputButton" value="" id="RequestGenerateSchema"/>
+      			 <input type="button" class="InputButton" value="Reset everything" id="RequestResetAll" />
+            </div>
+        </fieldset>
+		  </form>
+      <br />
+      <h3>3) Click schema to 'Select All'</h3>
+
+      <div id="RawRootSchemaPairView"></div>
+
+		</div>
+		<div id="footer">
+			Copyright © <a href="#">www.jsonschema.net</a>, 2012
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

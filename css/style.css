@@ -1,0 +1,181 @@
+body
+{
+  margin: 20px;
+  padding: 0;
+  font: 100%/1.3 helvetica, arial, sans-serif;
+  color: #444;
+  background: #fff;
+}
+
+h1, h2, h3, h4, h5, h6
+{
+  margin: 0 0 1em;
+  line-height: 1.1;
+  letter-spacing:-2px;
+}
+
+h2, h3 { color: #333; }
+
+
+h3
+{
+  margin: 0 0 1em;
+  letter-spacing:-1px;
+}
+
+h1 a, h1 a:hover
+{
+  margin: 0 0 1em;
+  line-height: 1.1;
+  letter-spacing:-2px;
+  color:#444;
+  text-decoration: none;
+}
+
+#LoadingView {
+  position:relative;
+  display:none;
+  background:#444;
+}
+
+#container
+{
+  margin: 0 auto;
+  width: 100%;
+  background: #fff;
+}
+
+#header
+{
+  /*border-top:solid 4px #FF6200;*/
+  border-top:solid 4px #333;
+  background: #ccc;
+  padding: 10px 20px 10px 20px;
+}
+
+#header h1 { margin: 0;  }
+
+#navigation
+{
+  float: left;
+  width: 100%;
+  background: #333;
+  border-bottom:solid 4px #FF6200;
+}
+
+#navigation ul
+{
+  margin: 0;
+  padding: 0;
+}
+
+#navigation ul li
+{
+  list-style-type: none;
+  display: inline;
+}
+
+#navigation li a
+{
+  display: block;
+  float: left;
+  padding: 5px 10px;
+  color: #fff;
+  text-decoration: none;
+  border-right: 1px solid #fff;
+  background: #333;
+}
+
+#navigation li a.selected { background: #FF6200; }
+
+#navigation li a:hover { background: #FF6200; }
+
+#content-container
+{
+  float: left;
+  width: 100%;
+}
+
+#content
+{
+  clear: left;
+  float: left;
+  width: 53%;
+  padding: 20px 0;
+  margin: 0 0 0 1%;
+  display: inline;
+}
+
+#content h2,#aside h2 { margin: 0; }
+
+#aside
+{
+  float: right;
+  width: 40%;
+  padding: 20px 0;
+  margin: 0 1% 0 0;
+  display: inline;
+}
+
+form#json textarea {
+  width:100%;
+  height:250px;
+  font-size:70%;
+  color:gray;
+}
+
+#footer
+{
+  clear:both;
+  background: #ccc;
+  text-align: right;
+  padding: 20px;
+  height: 1%;
+  border-bottom:solid 4px #333;
+}
+
+a, a:hover { 
+  outline: none;
+  text-decoration: underline;
+  color: #003D5D;
+}
+
+a:hover { 
+  text-decoration: none;
+}
+
+#UserInput legend {
+  font-size:90%;
+  padding: 0 2px;
+  font-weight: bold;
+}
+
+#UserInput fieldset {
+  margin:0 0 15px 0;
+  padding:5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+#UserInput textarea {
+  width:100%;
+  height:200px;
+  font-size:90%;
+}
+
+#UserInput .InputWrapper {
+  margin:0 10px 0 10px;
+}
+
+#UserInput input.InputButton {
+  padding:3px 20px 3px 20px;
+  margin:3px 20px 3px 0;
+}
+
+#UserInput span.RadioWrapper {
+  margin:3px 50px 3px 0;
+}
+
+#UserInput p {
+  font-size:80%;
+}
