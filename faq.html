@@ -33,58 +33,47 @@
 <body>
 
 
-<script type="text/template" id="schemapairview-template">
-  <div class="schemaviewpair" id="<%= id %>">
-    <div class="key">"<a href="#" data-id="<%=id%>"><%= key %></a>": </div>
-    <div class="options">
-      <form name="options" class="formOptions">
-        <div class="optRequired">Required:<input type="checkbox" name="required" value="required" /></div>
-        <div class="optRequired">Description:<input type="text" /></div>
-      </form>
-    </div>
-    <div class="schema"></div>
-  </div>
-</script>
-
-<script type="text/template" id="schemaview-template">
-  <span>{</span>
-  <div class="type">"type": "<%= type %>",</div>
-  <div class="properties">"properties": {
-    <div class="propertiesInner"></div>
-    },
-  </div>
-  <div class="items">"items": [
-    <div class="itemsInner"></div>
-    ],
- </div>}<%= separator %>
-</script>
 <div id="container">
-  <div id="header">
-    <h1>
-      <a href="index.html">JSON Schema.net</a> 
-    </h1>
-  </div>
-  <div id="navigation">
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="about.html">About</a></li>
-      <li><a class="selected" href="faq.html">FAQs</a></li>
-    </ul>
-  </div>
-	<div id="content-container">
-		<div id="content">
-			<h2>FAQs</h2>
-			<p></p>
-			
-		</div>
-		<div id="aside">
-			
-		</div>
-		<div id="footer">
-      Copyright © <a href="#">www.jsonschema.net</a>, 2012
-    </div>
-	</div>
-</div>
 
+ <div id="header">
+    <h1>
+      <a href="index.html" title="JSON Schema.net">JSON Schema.net</a> 
+      <span>alpha</span>
+    </h1>
+    <h2>Automagically generate and edit JSON schema.</h2>
+    <div id="navigation">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a class="selected" href="faq.html">FAQs</a></li>
+      </ul>
+    </div>
+    <div class="spacer" style="clear: both;"></div>
+  </div>
+
+    <div id="content">
+
+      <div id="mainleft">
+        
+        <div class="spacer" style="clear: both;"></div>
+      </div>
+
+      <div id="mainright">
+       
+        <div class="spacer" style="clear: both;"></div>
+      </div>
+       <div class="spacer" style="clear: both;"></div>
+    </div>
+
+
+    <div id="footer">
+    <p class="footernav"><a href="index.html" title="Home">Home</a> |
+    <a href="about.html" title="About">About</a> |
+    <a href="faq.html" title="FAQs">FAQs</a></p>
+    <p>Copyright © <a href="#" title="JSON Schem.net">www.jsonschema.net</a>, 2012</p>
+  </div>
+
+
+  </div>
 </body>
 </html>
